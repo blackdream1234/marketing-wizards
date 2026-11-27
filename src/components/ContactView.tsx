@@ -41,7 +41,9 @@ export function ContactView({ language, content, prefilledSubject }: ContactView
     message: prefilledSubject ? `${prefilledSubject} — ` : '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState<FormState | null>(null);
+  const [deliveryMode, setDeliveryMode] = useState<'sent' | 'mailto-fallback'>('sent');
 
   // Sync default select values when language switches
   useEffect(() => {
@@ -87,17 +89,75 @@ export function ContactView({ language, content, prefilledSubject }: ContactView
     return nextErrors;
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const buildMailtoHref = (data: FormState) => {
+    const subject = encodeURIComponent(
+      `[MarketingWizards] ${data.service} — ${data.name}`
+    );
+    const bodyLines = [
+      `${fields.name}: ${data.name}`,
+      `${fields.email}: ${data.email}`,
+      `${fields.phone}: ${data.phone}`,
+      data.postalCode ? `${fields.postalCode}: ${data.postalCode}` : null,
+      `${fields.service}: ${data.service}`,
+      `${fields.source}: ${data.source}`,
+      '',
+      `${fields.message}:`,
+      data.message,
+    ].filter((line): line is string => line !== null);
+
+    return `mailto:${CONTACT_INFO.email}?subject=${subject}&body=${encodeURIComponent(
+      bodyLines.join('\n')
+    )}`;
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const nextErrors = validate();
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length === 0) {
-      setSubmitted({ ...form });
+    if (Object.keys(nextErrors).length > 0) return;
+
+    const payload = { ...form };
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_INFO.email}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          _subject: `[MarketingWizards] ${payload.service} — ${payload.name}`,
+          _replyto: payload.email,
+          _template: 'table',
+          _captcha: 'false',
+          name: payload.name,
+          email: payload.email,
+          phone: payload.phone,
+          postalCode: payload.postalCode || '-',
+          service: payload.service,
+          source: payload.source,
+          message: payload.message,
+          language: language.toUpperCase(),
+        }),
+      });
+
+      if (response.ok) {
+        setDeliveryMode('sent');
+      } else {
+        setDeliveryMode('mailto-fallback');
+      }
+    } catch {
+      setDeliveryMode('mailto-fallback');
+    } finally {
+      setIsSubmitting(false);
+      setSubmitted(payload);
     }
   };
 
   const handleReset = () => {
     setSubmitted(null);
+    setDeliveryMode('sent');
     setErrors({});
     setForm({
       name: '',
@@ -203,12 +263,22 @@ export function ContactView({ language, content, prefilledSubject }: ContactView
               <div className="bg-white border border-slate-200 rounded-xl p-7 sm:p-10">
                 {submitted ? (
                   <div className="space-y-6" role="status" aria-live="polite">
-                    <div className="flex items-start gap-3 text-emerald-700">
-                      <CheckCircle2 className="w-6 h-6 shrink-0 mt-0.5" aria-hidden="true" />
+                    <div
+                      className={`flex items-start gap-3 ${
+                        deliveryMode === 'sent' ? 'text-emerald-700' : 'text-amber-700'
+                      }`}
+                    >
+                      {deliveryMode === 'sent' ? (
+                        <CheckCircle2 className="w-6 h-6 shrink-0 mt-0.5" aria-hidden="true" />
+                      ) : (
+                        <AlertCircle className="w-6 h-6 shrink-0 mt-0.5" aria-hidden="true" />
+                      )}
                       <div>
-                        <h2 className="text-2xl font-bold text-[#0B1221]">{success.heading}</h2>
+                        <h2 className="text-2xl font-bold text-[#0B1221]">
+                          {deliveryMode === 'sent' ? success.heading : success.fallbackHeading}
+                        </h2>
                         <p className="text-sm sm:text-base text-slate-600 mt-1.5 leading-relaxed">
-                          {success.body}
+                          {deliveryMode === 'sent' ? success.body : success.fallbackBody}
                         </p>
                       </div>
                     </div>
@@ -218,6 +288,10 @@ export function ContactView({ language, content, prefilledSubject }: ContactView
                         {success.summaryTitle}
                       </h3>
                       <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <dt className="text-xs text-slate-500">{success.sentToLabel}</dt>
+                          <dd className="font-medium text-[#1D4ED8]">{CONTACT_INFO.email}</dd>
+                        </div>
                         <div>
                           <dt className="text-xs text-slate-500">{fields.name}</dt>
                           <dd className="font-medium text-[#0B1221]">{submitted.name}</dd>
@@ -232,7 +306,7 @@ export function ContactView({ language, content, prefilledSubject }: ContactView
                             {submitted.phone}
                           </dd>
                         </div>
-                        <div>
+                        <div className="sm:col-span-2">
                           <dt className="text-xs text-slate-500">{fields.service}</dt>
                           <dd className="font-medium text-[#0B1221]">{submitted.service}</dd>
                         </div>
@@ -243,13 +317,26 @@ export function ContactView({ language, content, prefilledSubject }: ContactView
                       </div>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={handleReset}
-                      className="px-5 py-2.5 text-sm font-medium text-[#0B1221] border border-slate-300 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer"
-                    >
-                      {success.resetButton}
-                    </button>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <a
+                        href={buildMailtoHref(submitted)}
+                        className={`inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg transition-colors whitespace-nowrap ${
+                          deliveryMode === 'mailto-fallback'
+                            ? 'text-white bg-[#1D4ED8] hover:bg-[#1E40AF]'
+                            : 'text-[#1D4ED8] border border-[#1D4ED8]/30 hover:bg-[#1D4ED8]/5'
+                        }`}
+                      >
+                        <Mail className="w-4 h-4" aria-hidden="true" />
+                        <span>{success.openEmailApp}</span>
+                      </a>
+                      <button
+                        type="button"
+                        onClick={handleReset}
+                        className="px-5 py-2.5 text-sm font-medium text-[#0B1221] border border-slate-300 hover:bg-slate-50 rounded-lg transition-colors whitespace-nowrap cursor-pointer"
+                      >
+                        {success.resetButton}
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} noValidate className="space-y-6">
@@ -456,9 +543,10 @@ export function ContactView({ language, content, prefilledSubject }: ContactView
                     <div className="pt-2">
                       <button
                         type="submit"
-                        className="px-6 py-3.5 text-sm font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded-lg transition-colors whitespace-nowrap cursor-pointer"
+                        disabled={isSubmitting}
+                        className="px-6 py-3.5 text-sm font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] disabled:opacity-60 disabled:cursor-not-allowed rounded-lg transition-colors whitespace-nowrap cursor-pointer"
                       >
-                        {fields.submit}
+                        {isSubmitting ? fields.submitting : fields.submit}
                       </button>
                     </div>
                   </form>

@@ -2,5 +2,7 @@
   "name": "MarketingWizards",
   "description": "Full-service digital marketing, custom web engineering, SEO, and brand strategy agency website supporting English and French.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

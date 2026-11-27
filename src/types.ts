@@ -262,6 +262,10 @@ export interface SiteContent {
     success: {
       heading: string;
       body: string;
+      fallbackHeading: string;
+      fallbackBody: string;
+      sentToLabel: string;
+      openEmailApp: string;
       summaryTitle: string;
       resetButton: string;
     };

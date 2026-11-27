@@ -26,7 +26,7 @@ export const ASSETS = {
 };
 
 export const CONTACT_INFO = {
-  email: 'info@marketingwizards.com',
+  email: 'info@marketingwizards.ma',
   phone: '+212 661 40 37 38',
   phoneHref: 'tel:+212661403738',
   addressEn:
@@ -891,8 +891,13 @@ export const CONTENT: Record<Language, SiteContent> = {
         messageShort: 'Please share at least a brief overview of your project (15+ characters).',
       },
       success: {
-        heading: 'Inquiry received — thank you.',
-        body: 'Our strategy team has received your project brief and will respond within one business day with tailored recommendations.',
+        heading: 'Inquiry sent — thank you.',
+        body: 'Your project brief has been sent directly to info@marketingwizards.ma. Our strategy team will respond within one business day.',
+        fallbackHeading: 'Ready to send via your email app.',
+        fallbackBody:
+          'Automatic submission could not reach the mail relay from this connection. Click below to send your pre-filled inquiry directly to info@marketingwizards.ma.',
+        sentToLabel: 'Recipient',
+        openEmailApp: 'Open Pre-Filled Email to info@marketingwizards.ma',
         summaryTitle: 'Submission Summary',
         resetButton: 'Send Another Inquiry',
       },
@@ -1768,8 +1773,13 @@ export const CONTENT: Record<Language, SiteContent> = {
         messageShort: 'Veuillez décrire brièvement votre projet (15 caractères minimum).',
       },
       success: {
-        heading: 'Demande bien reçue — merci.',
-        body: 'Notre équipe a bien enregistré votre demande et reviendra vers vous sous un jour ouvré avec une première analyse.',
+        heading: 'Demande envoyée — merci.',
+        body: 'Votre demande a bien été transmise à info@marketingwizards.ma. Notre équipe reviendra vers vous sous un jour ouvré avec une première analyse.',
+        fallbackHeading: 'Finalisez l’envoi via votre messagerie.',
+        fallbackBody:
+          'L’envoi automatique n’a pas pu aboutir depuis cette connexion. Cliquez ci-dessous pour envoyer votre demande pré-remplie directement à info@marketingwizards.ma.',
+        sentToLabel: 'Destinataire',
+        openEmailApp: 'Ouvrir l’e-mail pré-rempli vers info@marketingwizards.ma',
         summaryTitle: 'Récapitulatif de votre demande',
         resetButton: 'Envoyer une autre demande',
       },
