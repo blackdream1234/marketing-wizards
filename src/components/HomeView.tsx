@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, ExternalLink } from 'lucide-react';
 import { ASSETS } from '../data/content';
 import { PageId, PortfolioItem, SiteContent } from '../types';
 import { ResilientImage } from './ResilientImage';
@@ -281,38 +281,51 @@ export function HomeView({
                   <div className="h-64 w-full bg-slate-100 border-b border-slate-200 overflow-hidden">
                     <ResilientImage
                       src={project.image}
-                      alt={`${project.title} website screenshot`}
+                      alt={`${project.title} project preview`}
                       fallbackTitle={project.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                      objectPosition="top"
+                      objectPosition={project.imageFit || 'top'}
                     />
                   </div>
-                  <div className="p-6 flex flex-col flex-1 justify-between">
-                    <div>
-                      <div className="text-xs text-slate-500 mb-2 flex items-center gap-2 flex-wrap">
-                        <span>{project.industry}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>{project.year}</span>
-                      </div>
-                      <h3 className="text-xl font-bold tracking-tight text-[#0B1221] group-hover:text-[#1D4ED8] transition-colors mb-2">
-                        {project.title}
-                      </h3>
-                      <p className="text-sm text-slate-600 leading-relaxed mb-5">
-                        {project.summary}
-                      </p>
+                  <div className="p-6 pb-4 flex flex-col flex-1">
+                    <div className="text-xs text-slate-500 mb-2 flex items-center gap-2 flex-wrap">
+                      <span>{project.industry}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{project.year}</span>
                     </div>
-
-                    <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                      <span className="font-mono text-xs font-semibold text-[#1D4ED8] tabular-nums">
-                        {project.metric}
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#0B1221] whitespace-nowrap shrink-0">
-                        {featuredWork.inspectProject}
-                        <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
-                      </span>
-                    </div>
+                    <h3 className="text-xl font-bold tracking-tight text-[#0B1221] group-hover:text-[#1D4ED8] transition-colors mb-2">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                      {project.summary}
+                    </p>
+                    <p className="mt-auto font-mono text-xs font-semibold text-[#1D4ED8] tabular-nums">
+                      {project.metric}
+                    </p>
                   </div>
                 </button>
+
+                <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={() => onSelectProject(project)}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-[#0B1221] hover:text-[#1D4ED8] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                  >
+                    <span>{featuredWork.inspectProject}</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+                  </button>
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-slate-600 hover:text-[#1D4ED8] transition-colors whitespace-nowrap shrink-0"
+                    >
+                      <span>{featuredWork.visitLiveSite}</span>
+                      <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                    </a>
+                  )}
+                </div>
               </article>
             ))}
           </div>

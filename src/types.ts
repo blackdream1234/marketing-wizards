@@ -53,6 +53,8 @@ export interface PortfolioItem {
   solution: string;
   deliverables: string[];
   image: string;
+  imageFit?: 'top' | 'center';
+  liveUrl?: string;
   featured?: boolean;
 }
 
@@ -123,6 +125,7 @@ export interface SiteContent {
     subheading: string;
     viewAll: string;
     inspectProject: string;
+    visitLiveSite: string;
   };
   process: {
     kicker: string;
@@ -185,6 +188,7 @@ export interface SiteContent {
       platform: string;
       impact: string;
       startSimilar: string;
+      visitLiveSite: string;
       scrollHint: string;
     };
   };

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ArrowRight, X } from 'lucide-react';
+import { ArrowRight, ExternalLink, X } from 'lucide-react';
 import { PortfolioItem, SiteContent } from '../types';
 import { ResilientImage } from './ResilientImage';
 
@@ -32,6 +32,11 @@ export function PortfolioModal({
 
   if (!project) return null;
 
+  const isEditorialPhoto = project.imageFit === 'center';
+  const displayDomain = project.liveUrl
+    ? project.liveUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
+    : null;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1221]/75 backdrop-blur-xs p-4 sm:p-6"
@@ -44,19 +49,41 @@ export function PortfolioModal({
         className="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col lg:flex-row shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Left: Scrollable full-page website capture */}
+        {/* Left: Visual preview (scrollable full capture or editorial showcase) */}
         <div className="lg:w-3/5 bg-slate-100 border-b lg:border-b-0 lg:border-r border-slate-200 flex flex-col max-h-[45vh] lg:max-h-[90vh]">
-          <div className="px-5 py-3 bg-white border-b border-slate-200 flex items-center justify-between text-xs text-slate-500">
+          <div className="px-5 py-3 bg-white border-b border-slate-200 flex items-center justify-between gap-4 text-xs text-slate-500">
             <span className="font-medium text-slate-700 truncate">{project.client}</span>
-            <span className="hidden sm:inline whitespace-nowrap shrink-0">{labels.scrollHint}</span>
+            {project.liveUrl && displayDomain ? (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-[#1D4ED8] hover:text-[#1E40AF] transition-colors whitespace-nowrap shrink-0"
+              >
+                <span>{displayDomain}</span>
+                <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+              </a>
+            ) : (
+              <span className="hidden sm:inline whitespace-nowrap shrink-0">{labels.scrollHint}</span>
+            )}
           </div>
-          <div className="overflow-y-auto flex-1 bg-slate-50">
+          <div
+            className={`flex-1 bg-slate-50 ${
+              isEditorialPhoto
+                ? 'flex items-center justify-center overflow-hidden bg-slate-900/5'
+                : 'overflow-y-auto'
+            }`}
+          >
             <ResilientImage
               src={project.image}
-              alt={`${project.title} full website design preview`}
+              alt={`${project.title} project visual preview`}
               fallbackTitle={project.title}
-              className="w-full h-auto block"
-              objectPosition="top"
+              className={
+                isEditorialPhoto
+                  ? 'w-full h-full object-cover'
+                  : 'w-full h-auto block'
+              }
+              objectPosition={project.imageFit || 'top'}
             />
           </div>
         </div>
@@ -123,14 +150,25 @@ export function PortfolioModal({
             </div>
           </div>
 
-          <div className="pt-6 mt-6 border-t border-slate-200">
+          <div className="pt-6 mt-6 border-t border-slate-200 space-y-3">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-[#0B1221] bg-white border border-slate-300 hover:border-slate-400 hover:bg-slate-50 rounded-lg transition-colors whitespace-nowrap"
+              >
+                <span>{labels.visitLiveSite}</span>
+                <ExternalLink className="w-4 h-4" aria-hidden="true" />
+              </a>
+            )}
             <button
               type="button"
               onClick={() => {
                 onClose();
                 onStartSimilar(project.title);
               }}
-              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-medium text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded-lg transition-colors cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-medium text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded-lg transition-colors whitespace-nowrap cursor-pointer"
             >
               <span>{labels.startSimilar}</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />

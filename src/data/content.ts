@@ -11,6 +11,8 @@ export const ASSETS = {
   dynamicDesign: '/assets/aistudio/Dynamic-Website-Design_99ff040f.webp',
   wordpressDesign: '/assets/aistudio/wordpress-website-design_1a843b92.jpg',
   portfolio: {
+    luxuryDesign: '/src/assets/images/luxury_design_showcase_1795793245575.jpg',
+    fisaBv: '/src/assets/images/fisa_bv_showcase_1795793249381.jpg',
     trussHaus: '/assets/aistudio/38_cd8695cb.webp',
     enueke: '/assets/aistudio/44_8b5af6f1.webp',
     garrettField: '/assets/aistudio/32_99cb5462.webp',
@@ -187,11 +189,12 @@ export const CONTENT: Record<Language, SiteContent> = {
     },
     featuredWork: {
       kicker: 'Selected Client Work',
-      heading: 'Proven digital builds across architecture, law, commerce, and bilingual nonprofits.',
+      heading: 'Proven digital builds across luxury interiors, European staffing, and global brands.',
       subheading:
-        'Explore real websites engineered by our team. Select any project to inspect the full-page layout, technical stack, and business outcome.',
+        'Explore live websites and campaigns engineered by our team. Select any project to review the full scope, deliverables, and live site link.',
       viewAll: 'View Full Portfolio',
-      inspectProject: 'Inspect Full Page',
+      inspectProject: 'View Case Study',
+      visitLiveSite: 'Visit Live Site',
     },
     process: {
       kicker: 'Delivery Methodology',
@@ -445,9 +448,64 @@ export const CONTENT: Record<Language, SiteContent> = {
         platform: 'Platform',
         impact: 'Measured Outcome',
         startSimilar: 'Start a Similar Project',
+        visitLiveSite: 'Visit Live Website',
         scrollHint: 'Scroll inside preview to inspect full layout',
       },
       items: [
+        {
+          id: 'luxury-design-tangier',
+          title: 'Luxury Design',
+          client: 'Luxury Design — Tangier',
+          industry: 'Interior Architecture, Custom Furniture & Kitchens',
+          category: 'branding',
+          categoryLabel: 'Brand & Editorial',
+          year: '2025',
+          platform: 'Multilingual Web, SEO & Brand Campaigns',
+          metric: '+155% Qualified Showroom Inquiries in 6 Months',
+          summary:
+            'Flagship multilingual website, technical SEO architecture, and brand acquisition campaigns for Tangier’s premier interior architecture, modern kitchen, and bespoke furnishings house.',
+          challenge:
+            'Luxury Design needed a refined digital showroom capable of presenting bespoke residential, hospitality, and executive interior projects while capturing high-intent architectural inquiries across Morocco and Francophone Europe.',
+          solution:
+            'We engineered a fast multilingual web platform structured around key product lines (custom furniture, modern kitchens, parquet, textiles, and outdoor living), backed by regional SEO optimization and targeted digital brand campaigns.',
+          deliverables: [
+            'Website Design & Development',
+            'Technical SEO & Search Marketing',
+            'Multilingual Website Setup',
+            'Branding & Digital Campaigns',
+          ],
+          image: ASSETS.portfolio.luxuryDesign,
+          imageFit: 'center',
+          liveUrl: 'https://www.luxurydesign.ma/fr/',
+          featured: true,
+        },
+        {
+          id: 'fisa-bv-netherlands',
+          title: 'FISA BV',
+          client: 'FISA BV — Utrecht, Netherlands',
+          industry: 'Transport, Logistics & Administrative Staffing',
+          category: 'multilingual',
+          categoryLabel: 'Multilingual',
+          year: '2025',
+          platform: 'Custom Web, SEO & Recruitment Campaigns',
+          metric: '+128% Qualified Employer & Candidate Leads',
+          summary:
+            'Conversion-focused corporate web platform, search marketing, and digital branding for a Dutch recruitment and staffing agency specializing in transport, logistics, and administrative personnel.',
+          challenge:
+            'Operating in the competitive Dutch staffing sector, FISA BV required a credible, high-speed website that converts both logistics employers seeking dependable drivers and candidates applying across mobile devices.',
+          solution:
+            'We delivered a clean European B2B web presence with multilingual readiness, structured search marketing targeting transport and logistics staffing queries, and cohesive employer-brand campaigns.',
+          deliverables: [
+            'Website Design & Development',
+            'SEO & Search Marketing',
+            'Multilingual Website Setup',
+            'Branding & Digital Campaigns',
+          ],
+          image: ASSETS.portfolio.fisaBv,
+          imageFit: 'center',
+          liveUrl: 'https://fisabv.nl',
+          featured: true,
+        },
         {
           id: 'ground-up-truss-haus',
           title: 'Ground Up — Truss Haus',
@@ -466,7 +524,7 @@ export const CONTENT: Record<Language, SiteContent> = {
             'We built a minimal dark-slate grid with sticky project narratives, fast progressive WebP image galleries, and streamlined consultation routing.',
           deliverables: ['Custom Editorial Layout', 'Progressive Image Gallery', 'Mobile-First Navigation', 'Technical SEO'],
           image: ASSETS.portfolio.trussHaus,
-          featured: true,
+          featured: false,
         },
         {
           id: 'enueke-foundation',
@@ -506,7 +564,7 @@ export const CONTENT: Record<Language, SiteContent> = {
             'We designed an inviting storytelling experience paired with multilingual localization, interactive fruit product showcases, and direct wholesale inquiry capture.',
           deliverables: ['Multilingual Localization', 'Traceability Storytelling', 'Product Catalog', 'B2B Lead Capture'],
           image: ASSETS.portfolio.goldenberry,
-          featured: true,
+          featured: false,
         },
         {
           id: 'garrett-field-estancia',
@@ -1008,11 +1066,12 @@ export const CONTENT: Record<Language, SiteContent> = {
     },
     featuredWork: {
       kicker: 'Réalisations Choisies',
-      heading: 'Des projets concrets en architecture, droit, e-commerce et organisations bilingues.',
+      heading: 'Des projets concrets en design d’intérieur, recrutement européen et marques globales.',
       subheading:
-        'Découvrez de vrais sites livrés par notre équipe. Sélectionnez un projet pour parcourir la maquette complète, la pile technique et l’impact obtenu.',
+        'Découvrez de vrais sites et campagnes livrés par notre équipe. Sélectionnez un projet pour explorer les détails techniques et accéder au site en ligne.',
       viewAll: 'Voir tout le portfolio',
-      inspectProject: 'Explorer la page',
+      inspectProject: 'Voir l’étude de cas',
+      visitLiveSite: 'Visiter le site',
     },
     process: {
       kicker: 'Méthodologie',
@@ -1266,9 +1325,64 @@ export const CONTENT: Record<Language, SiteContent> = {
         platform: 'Plateforme',
         impact: 'Résultat Mesuré',
         startSimilar: 'Lancer un projet similaire',
+        visitLiveSite: 'Visiter le site en ligne',
         scrollHint: 'Faites défiler l’aperçu pour voir la page complète',
       },
       items: [
+        {
+          id: 'luxury-design-tangier',
+          title: 'Luxury Design',
+          client: 'Luxury Design — Tanger',
+          industry: 'Architecture d’Intérieur, Ameublement & Cuisines',
+          category: 'branding',
+          categoryLabel: 'Marque & Éditorial',
+          year: '2025',
+          platform: 'Site Multilingue, SEO & Campagnes de Marque',
+          metric: '+155% de demandes showroom qualifiées en 6 mois',
+          summary:
+            'Vitrine digitale multilingue, architecture SEO technique et campagnes de marque pour la référence tangéroise de l’architecture d’intérieur, des cuisines modernes et de l’ameublement sur mesure.',
+          challenge:
+            'Luxury Design souhaitait un écrin digital haut de gamme valorisant ses réalisations résidentielles, hôtelières et professionnelles tout en générant des demandes qualifiées au Maroc et en Europe francophone.',
+          solution:
+            'Nous avons conçu une plateforme web multilingue rapide structurée autour des univers clés (ameublement, cuisines modernes, parquet, tissus et extérieurs), appuyée par un SEO régional et des campagnes digitales ciblées.',
+          deliverables: [
+            'Création & Développement Web',
+            'SEO & Marketing de Recherche',
+            'Architecture Multilingue',
+            'Image de Marque & Campagnes Digitales',
+          ],
+          image: ASSETS.portfolio.luxuryDesign,
+          imageFit: 'center',
+          liveUrl: 'https://www.luxurydesign.ma/fr/',
+          featured: true,
+        },
+        {
+          id: 'fisa-bv-netherlands',
+          title: 'FISA BV',
+          client: 'FISA BV — Utrecht, Pays-Bas',
+          industry: 'Recrutement Transport, Logistique & Administratif',
+          category: 'multilingual',
+          categoryLabel: 'Multilingue',
+          year: '2025',
+          platform: 'Site Sur Mesure, SEO & Campagnes Recrutement',
+          metric: '+128% de leads employeurs et candidats qualifiés',
+          summary:
+            'Plateforme corporate orientée conversion, référencement naturel et campagnes digitales pour une agence néerlandaise d’intérim et de recrutement spécialisée en transport, logistique et administratif.',
+          challenge:
+            'Dans un marché néerlandais très concurrentiel, FISA BV avait besoin d’un site crédible et rapide capable de convertir aussi bien les entreprises logistiques que les candidats sur mobile.',
+          solution:
+            'Nous avons déployé une présence B2B européenne structurée et prête pour le multilingue, soutenue par le marketing de recherche sur les métiers du transport et des campagnes de marque employeur.',
+          deliverables: [
+            'Création & Développement Web',
+            'SEO & Marketing de Recherche',
+            'Architecture Multilingue',
+            'Image de Marque & Campagnes Digitales',
+          ],
+          image: ASSETS.portfolio.fisaBv,
+          imageFit: 'center',
+          liveUrl: 'https://fisabv.nl',
+          featured: true,
+        },
         {
           id: 'ground-up-truss-haus',
           title: 'Ground Up — Truss Haus',
@@ -1287,7 +1401,7 @@ export const CONTENT: Record<Language, SiteContent> = {
             'Nous avons créé une grille éditoriale minimaliste avec récits de projet fixes, chargement progressif WebP et prise de contact directe.',
           deliverables: ['Design éditorial sur mesure', 'Galeries progressives', 'Navigation mobile fluide', 'SEO technique'],
           image: ASSETS.portfolio.trussHaus,
-          featured: true,
+          featured: false,
         },
         {
           id: 'enueke-foundation',
@@ -1327,7 +1441,7 @@ export const CONTENT: Record<Language, SiteContent> = {
             'Nous avons réalisé une narration visuelle claire associée à une localisation multilingue, un catalogue produits et un formulaire grossistes.',
           deliverables: ['Localisation multilingue', 'Storytelling traçabilité', 'Catalogue produits', 'Capture de leads B2B'],
           image: ASSETS.portfolio.goldenberry,
-          featured: true,
+          featured: false,
         },
         {
           id: 'garrett-field-estancia',
